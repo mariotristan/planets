@@ -96,7 +96,13 @@
       '<p class="question">' + msg + "</p>" +
       (newBest ? "<p>🎊 New best score! 🎊</p>" : "<p>Best score: " + best() + " ⭐</p>") +
       '<button class="big-btn again">Play again 🔄</button>';
-    box.querySelector(".again").addEventListener("click", start);
+    box.querySelector(".again").addEventListener("click", () => {
+      setBruno(brunoSays.quiz);
+      start();
+    });
+    setBruno(stars === ROUND ? "WOW! All the stars! I'm a real space expert! 🏆"
+      : stars >= ROUND / 2 ? "Yay! I got " + stars + " stars! Can I beat it next time? 🚀"
+      : "Good try! Let's explore the planets and play again! 🪐");
     speak("You got " + stars + " out of " + ROUND + " stars! " + msg.replace(/[^\w\s!,']/g, ""));
   }
 

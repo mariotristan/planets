@@ -3,12 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Planet Explorer</title>
+  <title>Astronaut Bruno Tristan's Planet Explorer</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>🚀 Planet Explorer</h1>
+    <h1>🚀 Astronaut Bruno Tristan's Planet Explorer</h1>
+    <div class="guide">
+      <button id="bruno" aria-label="Astronaut Bruno Tristan. Tap to hear him talk!">
+        <svg viewBox="0 0 120 150" width="110" height="138" aria-hidden="true">
+          <!-- backpack -->
+          <rect x="22" y="62" width="76" height="56" rx="14" fill="#c9d3e6"/>
+          <!-- legs -->
+          <rect x="38" y="108" width="18" height="32" rx="8" fill="#f4f6fb"/>
+          <rect x="64" y="108" width="18" height="32" rx="8" fill="#f4f6fb"/>
+          <rect x="35" y="132" width="24" height="12" rx="6" fill="#4d6bff"/>
+          <rect x="61" y="132" width="24" height="12" rx="6" fill="#4d6bff"/>
+          <!-- arms (one waving) -->
+          <rect x="12" y="72" width="18" height="34" rx="9" fill="#f4f6fb"/>
+          <g class="wave"><rect x="90" y="40" width="18" height="38" rx="9" fill="#f4f6fb"/>
+            <circle cx="99" cy="38" r="9" fill="#4d6bff"/></g>
+          <circle cx="21" cy="108" r="9" fill="#4d6bff"/>
+          <!-- body -->
+          <rect x="30" y="64" width="60" height="54" rx="16" fill="#ffffff"/>
+          <!-- name patch -->
+          <rect x="38" y="80" width="44" height="16" rx="4" fill="#ffd23f"/>
+          <text x="60" y="92" text-anchor="middle" font-size="11" font-weight="bold"
+                font-family="Trebuchet MS, sans-serif" fill="#1a1a40">BRUNO</text>
+          <circle cx="44" cy="106" r="4" fill="#ff5c7a"/>
+          <circle cx="56" cy="106" r="4" fill="#2fbf71"/>
+          <!-- helmet -->
+          <circle cx="60" cy="38" r="32" fill="#ffffff"/>
+          <rect x="34" y="22" width="52" height="34" rx="16" fill="#1b2a6b"/>
+          <path d="M42 30 q8 -6 16 -2" stroke="#9fc3ff" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <!-- smile -->
+          <circle cx="52" cy="40" r="3" fill="#ffd23f"/>
+          <circle cx="68" cy="40" r="3" fill="#ffd23f"/>
+          <path d="M52 47 q8 6 16 0" stroke="#ffd23f" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- antenna -->
+          <line x1="60" y1="6" x2="60" y2="-2" stroke="#c9d3e6" stroke-width="3"/>
+          <circle cx="60" cy="-3" r="4" fill="#ff5c7a"/>
+        </svg>
+      </button>
+      <p id="bubble" class="bubble" aria-live="polite"></p>
+    </div>
     <nav>
       <button class="tab active" data-tab="explore">🪐<span>Explore</span></button>
       <button class="tab" data-tab="compare">⚖️<span>Compare</span></button>
