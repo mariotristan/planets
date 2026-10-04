@@ -13,6 +13,7 @@ Plain HTML/CSS/JS, no build step, no dependencies. Planets are drawn with CSS gr
 - `app.js` — tab switching, read-aloud helper, planet-drawing helper
 - `explore.js` — orbiting solar system + fact card
 - `compare.js` — size comparison + weight calculator
+- `fly.js` — Fly with Bruno rocket trips
 - `quiz.js` — quiz game
 - `stickers.js` — sticker book and "New sticker!" pop-ups
 
@@ -23,7 +24,8 @@ Plain HTML/CSS/JS, no build step, no dependencies. Planets are drawn with CSS gr
    - Weight: slider for your weight (lb/kg toggle); grid shows your weight on each body with a fun comment.
 3. **Quiz** — 8 random questions per round from a bank of ~25. 3 big answer buttons (planet picture + name, or text). Right → ⭐ + cheer; wrong → "Try again!" (can retry; star only on first try). End screen shows stars; best score saved in `localStorage`.
 
-4. **Stickers** — a stamp for each body visited (Sun, 8 planets, Moon, Pluto) plus badges: Super Explorer (all visited), Size Detective, Space Scale, First Quiz, Star Catcher (5+ stars), Space Expert (8/8), Quiz Champ (3 rounds). Locked stickers show a hint. Saved in `localStorage`.
+4. **Fly** — pick a destination (Sun, Moon, planets, Pluto); Bruno's rocket flies there from Earth (longer trips take a bit longer, about 1.5s for the Moon up to 5s for Pluto). Shows the distance in km and miles (NASA closest-approach figures, `fromEarthKm`) and trip times by walking (5 km/h), car (100 km/h), airplane (900 km/h) and rocket (40,000 km/h), from `TRAVEL` in `data.js`.
+5. **Stickers** — a stamp for each body visited (Sun, 8 planets, Moon, Pluto) plus badges: Super Explorer (all visited), Size Detective, Space Scale, Space Traveler (first trip), Grand Tour (fly everywhere), First Quiz, Star Catcher (5+ stars), Space Expert (8/8), Quiz Champ (3 rounds). Locked stickers show a hint. Saved in `localStorage`.
 
 ## Moon and Pluto
 The Moon (`orbits: "earth"`) circles Earth in Explore. Pluto (`dwarf: true`) has a dotted outer orbit and a "dwarf planet" badge. Both appear in Compare and the quiz. Moon gravity 0.166, Pluto 0.063.

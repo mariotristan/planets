@@ -6,7 +6,7 @@ const spot = (x, y, w, h, color) =>
 
 const BODIES = [
   {
-    id: "sun", name: "Sun", order: 0, diameterKm: 1392700, gravity: 27.9,
+    id: "sun", name: "Sun", order: 0, diameterKm: 1392700, fromEarthKm: 149600000, gravity: 27.9,
     look: "radial-gradient(circle at 35% 35%, #fff7b0, #ffd23f 35%, #ff9f1c 70%, #ff6b00)",
     features: [
       spot(30, 55, 5, 5, "#e0700f"),
@@ -24,7 +24,7 @@ const BODIES = [
     bruno: "Don't fly too close — the Sun is super hot! 😎",
   },
   {
-    id: "mercury", name: "Mercury", order: 1, diameterKm: 4879, gravity: 0.38,
+    id: "mercury", name: "Mercury", order: 1, diameterKm: 4879, fromEarthKm: 77000000, gravity: 0.38,
     look: "radial-gradient(circle at 35% 35%, #d9d4cc, #9e968c 55%, #5e5750)",
     features: [
       spot(30, 40, 8, 8, "#857d74"),
@@ -42,7 +42,7 @@ const BODIES = [
     bruno: "Mercury zooms around the Sun so fast! Zoom zoom! 💨",
   },
   {
-    id: "venus", name: "Venus", order: 2, diameterKm: 12104, gravity: 0.91, spin: "backward",
+    id: "venus", name: "Venus", order: 2, diameterKm: 12104, fromEarthKm: 38000000, gravity: 0.91, spin: "backward",
     look: "radial-gradient(circle at 35% 35%, #fff1c9, #e8c27a 50%, #b8873a)",
     features: [
       spot(32, 40, 30, 6, "rgba(255, 248, 225, 0.55)"),
@@ -77,7 +77,7 @@ const BODIES = [
     bruno: "Home sweet home! Hi, Earth! 👋",
   },
   {
-    id: "moon", name: "Moon", order: 3, diameterKm: 3475, gravity: 0.166, orbits: "earth",
+    id: "moon", name: "Moon", order: 3, diameterKm: 3475, fromEarthKm: 384400, gravity: 0.166, orbits: "earth",
     look: "radial-gradient(circle at 35% 35%, #f4f4f4, #c8c8c8 55%, #8a8a8a)",
     features: [
       "radial-gradient(circle at 62% 35%, #9a9a9a 0 9%, transparent 10%)",
@@ -95,7 +95,7 @@ const BODIES = [
     bruno: "I've always wanted to leave my footprints on the Moon! 👣",
   },
   {
-    id: "mars", name: "Mars", order: 4, diameterKm: 6792, gravity: 0.38,
+    id: "mars", name: "Mars", order: 4, diameterKm: 6792, fromEarthKm: 54600000, gravity: 0.38,
     look: spot(50, 5, 22, 8, "#fff") + ", radial-gradient(circle at 35% 35%, #ffb38a, #e0603a 50%, #8f2f1a)",
     features: [
       spot(35, 45, 14, 8, "rgba(110, 35, 20, 0.55)"),
@@ -111,7 +111,7 @@ const BODIES = [
     bruno: "Look at all that red dust! Let's drive a rover! 🚙",
   },
   {
-    id: "jupiter", name: "Jupiter", order: 5, diameterKm: 142984, gravity: 2.53,
+    id: "jupiter", name: "Jupiter", order: 5, diameterKm: 142984, fromEarthKm: 588000000, gravity: 2.53,
     look: "linear-gradient(180deg, #e8d3b0 0 14%, #c99a6b 14% 24%, #f0e2c8 24% 38%, #b9825a 38% 48%, #ead7b8 48% 62%, #c08a5e 62% 74%, #e8d3b0 74% 88%, #b07a52 88%)",
     features: [
       "radial-gradient(ellipse at 65% 62%, #c4492e 0 8%, transparent 9%)",
@@ -128,7 +128,7 @@ const BODIES = [
     bruno: "Jupiter is HUGE! Watch out for the Great Red Spot storm! 🌪️",
   },
   {
-    id: "saturn", name: "Saturn", order: 6, diameterKm: 120536, gravity: 1.07, rings: true,
+    id: "saturn", name: "Saturn", order: 6, diameterKm: 120536, fromEarthKm: 1200000000, gravity: 1.07, rings: true,
     look: "linear-gradient(180deg, #f6e7b8 0 20%, #e3c886 20% 35%, #f3e1a8 35% 55%, #d9b874 55% 70%, #f1dca0 70%)",
     features: [
       spot(40, 46, 9, 3, "rgba(255, 255, 240, 0.6)"),
@@ -143,7 +143,7 @@ const BODIES = [
     bruno: "Those rings are so pretty! Can I go ice skating on them? ⛸️",
   },
   {
-    id: "uranus", name: "Uranus", order: 7, diameterKm: 51118, gravity: 0.89, spin: "sideways",
+    id: "uranus", name: "Uranus", order: 7, diameterKm: 51118, fromEarthKm: 2600000000, gravity: 0.89, spin: "sideways",
     look: "radial-gradient(circle at 35% 35%, #e0ffff, #8fe3e8 45%, #4fb3c2)",
     features: [
       spot(40, 35, 12, 4, "rgba(255, 255, 255, 0.4)"),
@@ -159,7 +159,7 @@ const BODIES = [
     bruno: "Uranus rolls on its side. Wheee! 🎳",
   },
   {
-    id: "neptune", name: "Neptune", order: 8, diameterKm: 49528, gravity: 1.14,
+    id: "neptune", name: "Neptune", order: 8, diameterKm: 49528, fromEarthKm: 4300000000, gravity: 1.14,
     look: "radial-gradient(circle at 35% 35%, #9fc3ff, #3f6fe0 50%, #1c2f8f)",
     features: [
       spot(40, 48, 10, 6, "#16246e"),
@@ -176,7 +176,7 @@ const BODIES = [
     bruno: "Brrr! Neptune is so far away and so windy! 🌬️",
   },
   {
-    id: "pluto", name: "Pluto", order: 9, diameterKm: 2377, gravity: 0.063, dwarf: true,
+    id: "pluto", name: "Pluto", order: 9, diameterKm: 2377, fromEarthKm: 4280000000, gravity: 0.063, dwarf: true,
     look: "radial-gradient(circle at 35% 35%, #ead3b2, #b08a66 55%, #6b5038)",
     features: [
       spot(37, 58, 9, 10, "#f6ead6"),
@@ -193,6 +193,14 @@ const BODIES = [
     weightJoke: "You would be as light as a feather! 🪶",
     bruno: "Pluto is tiny, but I still love it! 💜",
   },
+];
+
+// Ways to travel, for "Fly with Bruno". The rocket goes about as fast as a rocket leaving Earth.
+const TRAVEL = [
+  { icon: "🚶", name: "Walking", kmh: 5 },
+  { icon: "🚗", name: "Car", kmh: 100 },
+  { icon: "✈️", name: "Airplane", kmh: 900 },
+  { icon: "🚀", name: "Rocket", kmh: 40000 },
 ];
 
 // Answers that match a body id show a planet picture; anything else shows as text.

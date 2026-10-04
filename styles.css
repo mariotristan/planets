@@ -263,7 +263,10 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
   #bruno svg { width: 64px; height: 86px; }
   .bubble { font-size: 1rem; }
   h1 { font-size: 1.6rem; }
-  .tab { min-width: 96px; padding: 6px 12px; }
+  /* All tabs fit in one row: icon above label. */
+  nav { gap: 6px; flex-wrap: nowrap; }
+  .tab { flex: 1; min-width: 0; flex-direction: column; gap: 2px; padding: 6px 2px; font-size: 1.4rem; }
+  .tab span { font-size: 0.8rem; }
   .question { font-size: 1.5rem; }
   .answer { min-width: 140px; }
 }
@@ -275,7 +278,7 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
   .moon-orbit { animation: none !important; rotate: -40deg; }
   #pause { display: none; }
   #bruno, #bruno .wave, #bruno .blink, .bubble.pop-in,
-  .overlay:not(.hidden) .fact, .fact-pic .planet, body::before, body::after { animation-duration: 0s !important; }
+  .overlay:not(.hidden) .fact, .fact-pic .planet, body::before, body::after, .rocket .flame { animation-duration: 0s !important; }
 }
 
 /* ---------- Bruno reacting ---------- */
@@ -321,6 +324,7 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
   position: fixed; left: 50%; bottom: 24px; z-index: 20;
   translate: -50% 0;
   pointer-events: none; /* never block taps on what's underneath */
+  width: max-content; max-width: calc(100vw - 32px);
   display: flex; align-items: center; gap: 14px;
   padding: 12px 22px; border-radius: 999px;
   background: #ffd23f; color: #1a1a40; font-size: 1.3rem; font-weight: bold;
@@ -329,3 +333,47 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
 }
 .toast.hidden { display: none; }
 .toast .sticker-icon { font-size: 2.2rem; }
+
+/* ---------- Fly with Bruno ---------- */
+#destinations { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.dest {
+  min-width: 96px; min-height: 84px; padding: 8px 10px;
+  border: 3px solid #4d6bff; border-radius: 18px;
+  background: #1a2560; color: #fff; font-size: 1.05rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+}
+.dest.active { background: #ffd23f; color: #1a1a40; border-color: #fff; }
+.dest:disabled { cursor: default; }
+.dest:disabled:not(.active) { opacity: 0.6; }
+
+.trip { display: flex; align-items: center; gap: 10px; margin: 24px 0 8px; }
+.trip-end { flex: none; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; }
+.trip-track {
+  position: relative; flex: 1; height: 44px;
+  border-bottom: 3px dashed rgba(255, 255, 255, 0.35);
+}
+.rocket { position: absolute; left: 0; top: 0; }
+.rocket svg { display: block; }
+.rocket .flame { opacity: 0; transform-origin: 15px 20px; }
+.rocket.flying .flame { opacity: 1; animation: flicker 0.12s ease-in-out infinite alternate; }
+@keyframes flicker {
+  from { transform: scaleX(0.7); }
+  to { transform: scaleX(1.15); }
+}
+
+#travelGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.travel-tile {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px;
+  background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 12px;
+}
+.travel-icon { font-size: 2.4rem; }
+.travel-tile strong { font-size: 1.5rem; color: #ffd23f; }
+.travel-tile small { font-size: 0.95rem; min-height: 1.2em; }
+
+@media (max-width: 600px) {
+  .dest { min-width: 80px; font-size: 0.95rem; }
+  .rocket svg { width: 64px; height: 32px; }
+  .trip-end { width: 52px; }
+  #travelGrid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .travel-tile strong { font-size: 1.2rem; }
+}

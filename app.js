@@ -43,6 +43,7 @@ function stopSpeaking() {
 const brunoSays = {
   explore: "Hi! I'm Astronaut Bruno Tristan! Tap a planet and let's fly there! 🚀",
   compare: "How big are the planets? How much would I weigh there? Let's find out!",
+  fly: "Where should we fly today? Pick a place and blast off! 🚀",
   quiz: "Ready for a space quiz? Let's earn some stars! ⭐",
   stickers: "Look at all the stickers you collected! Can you get them all? 🏅",
 };

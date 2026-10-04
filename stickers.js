@@ -7,6 +7,8 @@
     { id: "explorer", name: "Super Explorer", icon: "🧭", hint: "Visit every planet, the Sun, the Moon and Pluto" },
     { id: "size", name: "Size Detective", icon: "🔍", hint: "Compare two sizes" },
     { id: "weight", name: "Space Scale", icon: "⚖️", hint: "Move the weight slider" },
+    { id: "trip", name: "Space Traveler", icon: "🧑‍🚀", hint: "Fly somewhere with Bruno" },
+    { id: "trip-all", name: "Grand Tour", icon: "🗺️", hint: "Fly to every place" },
     { id: "quiz-first", name: "First Quiz", icon: "🎓", hint: "Finish a quiz" },
     { id: "quiz-5", name: "Star Catcher", icon: "🌟", hint: "Get 5 stars in one quiz" },
     { id: "quiz-perfect", name: "Space Expert", icon: "🏆", hint: "Get all 8 stars in one quiz" },
