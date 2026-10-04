@@ -38,6 +38,43 @@
     return plural(Math.round(days / 365.25), "year");
   }
 
+  // Rocket engine sound, made in code (no sound files): a deep rumble that roars up at
+  // blast-off, keeps going for the whole flight, and fades out as we land.
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let audio;
+  function rocketSound(ctx, seconds) {
+    const t = ctx.currentTime;
+    // Brown noise: random steps that wander slowly, so it rumbles instead of hissing.
+    const buf = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * seconds), ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < data.length; i++) {
+      last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+      data[i] = last * 3.5;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+    const filter = ctx.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(300, t);
+    filter.frequency.linearRampToValueAtTime(1400, t + 0.4); // the roar at blast-off
+    filter.frequency.linearRampToValueAtTime(500, t + seconds);
+    const volume = ctx.createGain();
+    volume.gain.setValueAtTime(0.0001, t);
+    volume.gain.exponentialRampToValueAtTime(0.6, t + 0.25);
+    volume.gain.setValueAtTime(0.6, t + seconds * 0.75);
+    volume.gain.exponentialRampToValueAtTime(0.0001, t + seconds);
+    noise.connect(filter).connect(volume).connect(ctx.destination);
+    noise.start(t);
+    noise.stop(t + seconds);
+  }
+  function playRocketSound(ms) {
+    if (!AudioCtx) return;
+    audio = audio || new AudioCtx(); // created on the first tap, so browsers allow it to play
+    if (audio.state === "suspended") audio.resume();
+    rocketSound(audio, Math.max(ms, 1200) / 1000);
+  }
+
   function picture(el, body) {
     el.innerHTML = "";
     el.appendChild(drawPlanet(body, body.rings ? 46 : 56));
@@ -57,6 +94,7 @@
     const ms = reduceMotion ? 0 : 1500 + Math.log10(body.fromEarthKm / 384400) * 850;
     if (flight) flight.cancel();
     rocket.classList.add("flying");
+    playRocketSound(ms);
     flight = rocket.animate(
       [{ left: "0px" }, { left: "calc(100% - " + rocket.offsetWidth + "px)" }],
       { duration: ms, easing: "ease-in-out", fill: "forwards" }
