@@ -12,6 +12,7 @@ const BODIES = [
       "All the planets travel around the Sun.",
     ],
     weightJoke: "Ouch! You would be squished flat!",
+    bruno: "Don't fly too close — the Sun is super hot! 😎",
   },
   {
     id: "mercury", name: "Mercury", order: 1, diameterKm: 4879, gravity: 0.38,
@@ -23,6 +24,7 @@ const BODIES = [
       "Mercury has lots of craters, just like our Moon.",
     ],
     weightJoke: "You could jump super high!",
+    bruno: "Mercury zooms around the Sun so fast! Zoom zoom! 💨",
   },
   {
     id: "venus", name: "Venus", order: 2, diameterKm: 12104, gravity: 0.91,
@@ -34,6 +36,7 @@ const BODIES = [
       "Venus is the brightest planet in our night sky.",
     ],
     weightJoke: "Almost the same as on Earth!",
+    bruno: "Phew, Venus is hot! Good thing my suit has air conditioning!",
   },
   {
     id: "earth", name: "Earth", order: 3, diameterKm: 12756, gravity: 1,
@@ -45,6 +48,20 @@ const BODIES = [
       "Earth has one moon.",
     ],
     weightJoke: "This is your normal weight!",
+    bruno: "Home sweet home! Hi, Earth! 👋",
+  },
+  {
+    id: "moon", name: "Moon", order: 3, diameterKm: 3475, gravity: 0.166, orbits: "earth",
+    look: "radial-gradient(circle at 62% 35%, #9a9a9a 0 9%, transparent 10%), radial-gradient(circle at 35% 62%, #a3a3a3 0 11%, transparent 12%), radial-gradient(circle at 68% 70%, #a8a8a8 0 6%, transparent 7%), radial-gradient(circle at 35% 35%, #f4f4f4, #c8c8c8 55%, #8a8a8a)",
+    badge: "Earth's moon!",
+    facts: [
+      "The Moon goes around the Earth.",
+      "Astronauts have walked on the Moon!",
+      "The Moon has no air or wind, so footprints there can last for millions of years.",
+      "The Moon does not make its own light. It shines with light from the Sun.",
+    ],
+    weightJoke: "You could hop like a kangaroo! 🦘",
+    bruno: "I've always wanted to leave my footprints on the Moon! 👣",
   },
   {
     id: "mars", name: "Mars", order: 4, diameterKm: 6792, gravity: 0.38,
@@ -56,6 +73,7 @@ const BODIES = [
       "Robots called rovers drive around on Mars.",
     ],
     weightJoke: "Boing! You would bounce around!",
+    bruno: "Look at all that red dust! Let's drive a rover! 🚙",
   },
   {
     id: "jupiter", name: "Jupiter", order: 5, diameterKm: 142984, gravity: 2.53,
@@ -67,6 +85,7 @@ const BODIES = [
       "Jupiter has lots and lots of moons.",
     ],
     weightJoke: "Whoa, you would feel super heavy!",
+    bruno: "Jupiter is HUGE! Watch out for the Great Red Spot storm! 🌪️",
   },
   {
     id: "saturn", name: "Saturn", order: 6, diameterKm: 120536, gravity: 1.07, rings: true,
@@ -78,6 +97,7 @@ const BODIES = [
       "Saturn has more moons than any other planet.",
     ],
     weightJoke: "Just a little heavier than on Earth.",
+    bruno: "Those rings are so pretty! Can I go ice skating on them? ⛸️",
   },
   {
     id: "uranus", name: "Uranus", order: 7, diameterKm: 51118, gravity: 0.89,
@@ -89,6 +109,7 @@ const BODIES = [
       "Uranus has thin, dark rings.",
     ],
     weightJoke: "A tiny bit lighter than on Earth.",
+    bruno: "Uranus rolls on its side. Wheee! 🎳",
   },
   {
     id: "neptune", name: "Neptune", order: 8, diameterKm: 49528, gravity: 1.14,
@@ -100,6 +121,20 @@ const BODIES = [
       "One year on Neptune is 165 Earth years long!",
     ],
     weightJoke: "A little heavier than on Earth.",
+    bruno: "Brrr! Neptune is so far away and so windy! 🌬️",
+  },
+  {
+    id: "pluto", name: "Pluto", order: 9, diameterKm: 2377, gravity: 0.063, dwarf: true,
+    look: "radial-gradient(ellipse at 42% 62%, #f6ead6 0 17%, transparent 18%), radial-gradient(circle at 35% 35%, #ead3b2, #b08a66 55%, #6b5038)",
+    badge: "A dwarf planet!",
+    facts: [
+      "Pluto is a dwarf planet. It used to be called the 9th planet!",
+      "Pluto is smaller than our Moon.",
+      "Scientists call it a dwarf planet because it is small and shares its path with lots of icy rocks.",
+      "Pluto has a big shape like a heart on it! 💜",
+    ],
+    weightJoke: "You would be as light as a feather! 🪶",
+    bruno: "Pluto is tiny, but I still love it! 💜",
   },
 ];
 
@@ -130,4 +165,9 @@ const QUIZ = [
   { q: "What are Saturn's rings made of?", answers: ["Ice and rock", "Gold", "Candy"], correct: "Ice and rock" },
   { q: "Can you stand on Jupiter?", answers: ["Yes", "No, it is made of gas"], correct: "No, it is made of gas" },
   { q: "On which planet would you feel the heaviest?", answers: ["mars", "jupiter", "mercury"], correct: "jupiter" },
+  { q: "What goes around the Earth?", answers: ["moon", "mars", "sun"], correct: "moon" },
+  { q: "Which one is a dwarf planet?", answers: ["earth", "pluto", "jupiter"], correct: "pluto" },
+  { q: "Who has walked on the Moon?", answers: ["Astronauts", "Dinosaurs", "Fish"], correct: "Astronauts" },
+  { q: "Is Pluto bigger or smaller than our Moon?", answers: ["Bigger", "Smaller"], correct: "Smaller" },
+  { q: "What shape is on Pluto?", answers: ["A heart", "A star", "A square"], correct: "A heart" },
 ];

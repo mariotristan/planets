@@ -14,6 +14,7 @@ Plain HTML/CSS/JS, no build step, no dependencies. Planets are drawn with CSS gr
 - `explore.js` — orbiting solar system + fact card
 - `compare.js` — size comparison + weight calculator
 - `quiz.js` — quiz game
+- `stickers.js` — sticker book and "New sticker!" pop-ups
 
 ## Tabs
 1. **Explore** — Sun in the middle, planets orbiting (pause/play button). Tap a body → large fact card: name, drawing, "Planet #N from the Sun" badge, 3–4 short facts, 🔊 read-aloud, ◀ ▶ to move between bodies, ✕ to close.
@@ -21,6 +22,14 @@ Plain HTML/CSS/JS, no build step, no dependencies. Planets are drawn with CSS gr
    - Size: pick two bodies (incl. Sun); both drawn at true relative diameter; sentence "Jupiter is about 11 times wider than Earth."
    - Weight: slider for your weight (lb/kg toggle); grid shows your weight on each body with a fun comment.
 3. **Quiz** — 8 random questions per round from a bank of ~25. 3 big answer buttons (planet picture + name, or text). Right → ⭐ + cheer; wrong → "Try again!" (can retry; star only on first try). End screen shows stars; best score saved in `localStorage`.
+
+4. **Stickers** — a stamp for each body visited (Sun, 8 planets, Moon, Pluto) plus badges: Super Explorer (all visited), Size Detective, Space Scale, First Quiz, Star Catcher (5+ stars), Space Expert (8/8), Quiz Champ (3 rounds). Locked stickers show a hint. Saved in `localStorage`.
+
+## Moon and Pluto
+The Moon (`orbits: "earth"`) circles Earth in Explore. Pluto (`dwarf: true`) has a dotted outer orbit and a "dwarf planet" badge. Both appear in Compare and the quiz. Moon gravity 0.166, Pluto 0.063.
+
+## Bruno reacts
+Bruno's bubble changes (with a small pop) when a fact card opens (each body has a `bruno` line), when sizes or weights are compared, on right/wrong quiz answers, and at the end of a quiz.
 
 ## Read-aloud
 `speechSynthesis` with rate 0.85. 🔊 buttons on fact cards and quiz questions. Hidden if the browser lacks support.

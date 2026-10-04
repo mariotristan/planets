@@ -93,6 +93,7 @@
       <button class="tab active" data-tab="explore">🪐<span>Explore</span></button>
       <button class="tab" data-tab="compare">⚖️<span>Compare</span></button>
       <button class="tab" data-tab="quiz">❓<span>Quiz</span></button>
+      <button class="tab" data-tab="stickers">🏅<span>Stickers</span></button>
     </nav>
   </header>
 
@@ -131,6 +132,14 @@
     <section id="quiz" class="panel">
       <div id="quizBox" class="card"></div>
     </section>
+
+    <section id="stickers" class="panel">
+      <div class="card">
+        <h2>🏅 My Sticker Book</h2>
+        <p id="stickerCount" class="say"></p>
+        <div id="stickerGrid"></div>
+      </div>
+    </section>
   </main>
 
   <div id="factCard" class="overlay hidden" role="dialog" aria-modal="true">
@@ -148,8 +157,11 @@
     </div>
   </div>
 
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
   <script src="data.js"></script>
   <script src="app.js"></script>
+  <script src="stickers.js"></script>
   <script src="explore.js"></script>
   <script src="compare.js"></script>
   <script src="quiz.js"></script>

@@ -4,7 +4,11 @@
   const box = document.getElementById("quizBox");
   const ROUND = 8;
   const BEST_KEY = "planetQuizBest";
+  const ROUNDS_KEY = "planetQuizRounds";
   const cheers = ["Great job! 🎉", "You got it! 🌟", "Awesome! 🚀", "Super star! ⭐", "Wow, smart! 🧠"];
+  const brunoRight = ["I knew you could do it! 🙌", "High five, astronaut! ✋", "You're a space genius! 🧠", "Blast off! That's right! 🚀"];
+  const brunoWrong = ["Hmm, tricky one! Try another! 🤔", "Oops! Don't give up! 💪", "So close! Pick again! 🌟"];
+  const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
   let questions, index, stars, firstTry;
 
   const shuffle = (arr) => {
@@ -61,12 +65,14 @@
       btn.classList.add("wrong");
       btn.disabled = true;
       feedback.textContent = "Not quite — try again! 💪";
+      setBruno(pick(brunoWrong));
       return;
     }
     btn.classList.add("right");
     box.querySelectorAll(".answer").forEach((b) => (b.disabled = true));
     if (firstTry) stars++;
-    const cheer = cheers[Math.floor(Math.random() * cheers.length)];
+    const cheer = pick(cheers);
+    setBruno(pick(brunoRight));
     feedback.innerHTML = '<span class="pop">' + cheer + "</span>";
     speak(cheer.replace(/[^\w\s!,']/g, ""));
     box.querySelector(".quiz-top span:last-child").textContent = "⭐ " + stars;
@@ -87,6 +93,8 @@
   function finish() {
     const newBest = stars > best();
     if (newBest) localStorage.setItem(BEST_KEY, stars);
+    const rounds = Number(localStorage.getItem(ROUNDS_KEY) || 0) + 1;
+    localStorage.setItem(ROUNDS_KEY, rounds);
     const msg = stars === ROUND ? "PERFECT! You are a space expert! 🏆"
       : stars >= ROUND / 2 ? "Great work, astronaut! 🚀"
       : "Good try! Explore the planets and play again! 🪐";
@@ -103,6 +111,10 @@
     setBruno(stars === ROUND ? "WOW! All the stars! I'm a real space expert! 🏆"
       : stars >= ROUND / 2 ? "Yay! I got " + stars + " stars! Can I beat it next time? 🚀"
       : "Good try! Let's explore the planets and play again! 🪐");
+    earnSticker("quiz-first");
+    if (stars >= 5) earnSticker("quiz-5");
+    if (stars === ROUND) earnSticker("quiz-perfect");
+    if (rounds >= 3) earnSticker("quiz-3");
     speak("You got " + stars + " out of " + ROUND + " stars! " + msg.replace(/[^\w\s!,']/g, ""));
   }
 

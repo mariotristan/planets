@@ -42,8 +42,21 @@
         " times wider than " + small.name + "!";
   }
 
-  selA.addEventListener("change", showSizes);
-  selB.addEventListener("change", showSizes);
+  // Bruno reacts when the child picks a new pair.
+  function pickedSizes() {
+    showSizes();
+    earnSticker("size");
+    const a = byId(selA.value);
+    const b = byId(selB.value);
+    const times = Math.max(a.diameterKm, b.diameterKm) / Math.min(a.diameterKm, b.diameterKm);
+    setBruno(a === b ? "Hee hee, that's the same one twice! 😄"
+      : times > 50 ? "WHOA! That's GIGANTIC! 🤯"
+      : times > 5 ? "Wow, what a big difference! 😮"
+      : times > 1.15 ? "Hmm, one is a bit bigger! 🔍"
+      : "They're like twins! 👯");
+  }
+  selA.addEventListener("change", pickedSizes);
+  selB.addEventListener("change", pickedSizes);
   window.addEventListener("resize", showSizes);
 
   // ---- Weight ----
@@ -84,6 +97,17 @@
   }
 
   slider.addEventListener("input", showWeights);
+  // When the child lets go of the slider, Bruno compares the heaviest and lightest places.
+  slider.addEventListener("change", () => {
+    earnSticker("weight");
+    const w = Number(slider.value);
+    const places = BODIES.filter((b) => b.id !== "sun");
+    const heavy = places.reduce((a, b) => (b.gravity > a.gravity ? b : a));
+    const light = places.reduce((a, b) => (b.gravity < a.gravity ? b : a));
+    const unitName = unit === "lb" ? "pounds" : "kilograms";
+    setBruno("On " + heavy.name + " you'd weigh " + Math.round(w * heavy.gravity) + " " + unitName +
+      ", but on " + light.name + " only " + Math.round(w * light.gravity) + " " + unitName + "! Boing! 🦘");
+  });
 
   showWeights();
   // Size view needs layout; wait until the Compare tab is visible the first time.

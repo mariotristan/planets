@@ -219,5 +219,53 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit, .body-btn, #bruno, #bruno .wave, #bruno .blink { animation-duration: 0s !important; }
+  .orbit, .moon-orbit, .body-btn, #bruno, #bruno .wave, #bruno .blink, .bubble.pop-in { animation-duration: 0s !important; }
 }
+
+/* ---------- Bruno reacting ---------- */
+.bubble.pop-in { animation: bubble-pop 0.35s ease-out; }
+@keyframes bubble-pop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+/* ---------- Moon and Pluto in Explore ---------- */
+.orbit.dwarf { border-style: dotted; border-color: rgba(255, 255, 255, 0.18); }
+.moon-orbit {
+  pointer-events: none;
+  position: absolute; left: 50%; top: 50%;
+  border-radius: 50%;
+  translate: -50% -50%;
+  animation: spin var(--dur) linear infinite;
+}
+.moon-orbit .body-btn { padding: 4px; min-width: 36px; min-height: 36px; }
+#system.paused .moon-orbit { animation-play-state: paused; }
+
+/* ---------- Sticker book ---------- */
+#stickerGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+.sticker {
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  gap: 8px; text-align: center; padding: 12px;
+  border: 3px dashed rgba(255, 255, 255, 0.3); border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.sticker small { font-size: 0.85rem; opacity: 0.8; }
+.sticker.got { border: 3px solid #ffd23f; background: rgba(255, 210, 63, 0.15); }
+.sticker-art { height: 76px; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; opacity: 0.5; }
+.sticker.got .sticker-art { opacity: 1; }
+.sticker.got:nth-child(odd) .sticker-art { transform: rotate(-6deg); }
+.sticker.got:nth-child(even) .sticker-art { transform: rotate(5deg); }
+.sticker-icon { font-size: 3.2rem; line-height: 1; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 20;
+  translate: -50% 0;
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 22px; border-radius: 999px;
+  background: #ffd23f; color: #1a1a40; font-size: 1.3rem; font-weight: bold;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  animation: pop 0.4s ease-out;
+}
+.toast.hidden { display: none; }
+.toast .sticker-icon { font-size: 2.2rem; }

@@ -31,10 +31,15 @@ const brunoSays = {
   explore: "Hi! I'm Astronaut Bruno Tristan! Tap a planet and let's fly there! 🚀",
   compare: "How big are the planets? How much would I weigh there? Let's find out!",
   quiz: "Ready for a space quiz? Let's earn some stars! ⭐",
+  stickers: "Look at all the stickers you collected! Can you get them all? 🏅",
 };
 const bubble = document.getElementById("bubble");
 function setBruno(text) {
   bubble.textContent = text;
+  // Restart the little "pop" so the child notices Bruno said something new.
+  bubble.classList.remove("pop-in");
+  void bubble.offsetWidth;
+  bubble.classList.add("pop-in");
 }
 document.getElementById("bruno").addEventListener("click", () =>
   speak(bubble.textContent.replace(/[^\w\s!?,.']/g, ""))

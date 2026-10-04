@@ -9,31 +9,38 @@
 
   // Not to scale — sized so every planet is easy to tap.
   const exploreSize = { sun: 0.13, mercury: 0.03, venus: 0.04, earth: 0.042, mars: 0.035,
-    jupiter: 0.075, saturn: 0.062, uranus: 0.05, neptune: 0.05 };
+    jupiter: 0.075, saturn: 0.062, uranus: 0.05, neptune: 0.05, moon: 0.016, pluto: 0.026 };
+  const sizeOf = (body, w) => Math.max(16, exploreSize[body.id] * w);
+
+  function bodyButton(body, w) {
+    const btn = document.createElement("button");
+    btn.className = "body-btn";
+    btn.setAttribute("aria-label", body.name);
+    btn.appendChild(drawPlanet(body, sizeOf(body, w)));
+    btn.addEventListener("click", () => openCard(BODIES.indexOf(body)));
+    return btn;
+  }
 
   function buildSystem() {
     system.innerHTML = "";
     const w = system.clientWidth;
     BODIES.forEach((body) => {
-      const btn = document.createElement("button");
-      btn.className = "body-btn";
-      btn.setAttribute("aria-label", body.name);
-      btn.appendChild(drawPlanet(body, Math.max(16, exploreSize[body.id] * w)));
+      if (body.orbits) return; // moons are added next to their planet below
+      const btn = bodyButton(body, w);
       const label = document.createElement("span");
       label.className = "label";
       label.textContent = body.name;
       btn.appendChild(label);
-      btn.addEventListener("click", () => openCard(body.order));
 
       if (body.id === "sun") {
         btn.classList.add("sun-btn");
         system.appendChild(btn);
         return;
       }
-      // Orbits spread evenly from 22% to 96% of the box; outer planets move slower.
+      // Orbits spread evenly from 20% to 97% of the box; outer planets move slower.
       const orbit = document.createElement("div");
-      orbit.className = "orbit";
-      const d = 22 + (body.order - 1) * (74 / 7);
+      orbit.className = "orbit" + (body.dwarf ? " dwarf" : "");
+      const d = 20 + (body.order - 1) * (77 / 8);
       orbit.style.width = orbit.style.height = d + "%";
       const dur = 8 * Math.pow(body.order, 1.1) + "s";
       orbit.style.setProperty("--dur", dur);
@@ -43,6 +50,21 @@
       const holder = document.createElement("div");
       holder.className = "orbit-body";
       holder.appendChild(btn);
+      BODIES.filter((m) => m.orbits === body.id).forEach((moon) => {
+        // A small, fast orbit hugging the planet.
+        const moonOrbit = document.createElement("div");
+        moonOrbit.className = "moon-orbit";
+        const r = sizeOf(body, w) * 1.9;
+        moonOrbit.style.width = moonOrbit.style.height = r + "px";
+        moonOrbit.style.setProperty("--dur", "4s");
+        const moonHolder = document.createElement("div");
+        moonHolder.className = "orbit-body";
+        const moonBtn = bodyButton(moon, w);
+        moonBtn.style.setProperty("--dur", "4s");
+        moonHolder.appendChild(moonBtn);
+        moonOrbit.appendChild(moonHolder);
+        holder.appendChild(moonOrbit);
+      });
       orbit.appendChild(holder);
       system.appendChild(orbit);
     });
@@ -56,6 +78,8 @@
     pic.innerHTML = "";
     pic.appendChild(drawPlanet(body, body.rings ? 110 : 140));
     card.querySelector(".fact-name").textContent = body.name;
+    setBruno(body.bruno);
+    earnSticker("visit-" + body.id);
     card.querySelector(".badge").textContent =
       body.badge || "Planet #" + body.order + " from the Sun";
     const list = card.querySelector(".fact-list");
