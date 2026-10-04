@@ -2,13 +2,26 @@
 
 const byId = (id) => BODIES.find((b) => b.id === id);
 
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 // Draws a planet as a <div> of the given pixel size.
-function drawPlanet(body, size) {
+// With spin, its surface features slowly scroll across it so it looks like it's turning.
+function drawPlanet(body, size, spin) {
   const el = document.createElement("div");
   el.className = "planet " + body.id + (body.rings ? " rings" : "");
   el.style.width = el.style.height = size + "px";
-  el.style.background = body.look;
+  el.style.background = body.features.concat(body.look).join(", ");
   if (body.rings) el.style.setProperty("--ring", Math.max(3, size / 8) + "px");
+  if (spin && !reduceMotion) {
+    el.classList.add("spin");
+    // Only the feature layers move; the base look layers stay put.
+    const baseLayers = Array(body.look.match(/gradient\(/g).length).fill("0 0");
+    const at = (pos) => body.features.map(() => pos).concat(baseLayers).join(", ");
+    const end = body.spin === "sideways" ? "0 " + size + "px"
+      : body.spin === "backward" ? -size + "px 0"
+      : size + "px 0";
+    el.animate({ backgroundPosition: [at("0 0"), at(end)] }, { duration: 20000, iterations: Infinity });
+  }
   return el;
 }
 

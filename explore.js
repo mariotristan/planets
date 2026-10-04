@@ -70,13 +70,15 @@
     });
   }
 
-  function openCard(index) {
+  // dir: -1 for ◀, 1 for ▶, so the next planet flies in from that side.
+  function openCard(index, dir) {
     current = (index + BODIES.length) % BODIES.length;
     const body = BODIES[current];
     stopSpeaking();
     const pic = card.querySelector(".fact-pic");
     pic.innerHTML = "";
-    pic.appendChild(drawPlanet(body, body.rings ? 110 : 140));
+    pic.style.setProperty("--from", (dir || 0) * 160 + "px");
+    pic.appendChild(drawPlanet(body, body.rings ? 110 : 140, true));
     card.querySelector(".fact-name").textContent = body.name;
     setBruno(body.bruno);
     earnSticker("visit-" + body.id);
@@ -99,14 +101,14 @@
   }
 
   card.querySelector(".close").addEventListener("click", closeCard);
-  card.querySelector(".prev").addEventListener("click", () => openCard(current - 1));
-  card.querySelector(".next").addEventListener("click", () => openCard(current + 1));
+  card.querySelector(".prev").addEventListener("click", () => openCard(current - 1, -1));
+  card.querySelector(".next").addEventListener("click", () => openCard(current + 1, 1));
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeCard(); });
   document.addEventListener("keydown", (e) => {
     if (overlay.classList.contains("hidden")) return;
     if (e.key === "Escape") closeCard();
-    if (e.key === "ArrowLeft") openCard(current - 1);
-    if (e.key === "ArrowRight") openCard(current + 1);
+    if (e.key === "ArrowLeft") openCard(current - 1, -1);
+    if (e.key === "ArrowRight") openCard(current + 1, 1);
   });
 
   const speakBtn = card.querySelector(".speak");

@@ -31,6 +31,12 @@ The Moon (`orbits: "earth"`) circles Earth in Explore. Pluto (`dwarf: true`) has
 ## Bruno reacts
 Bruno's bubble changes (with a small pop) when a fact card opens (each body has a `bruno` line), when sizes or weights are compared, on right/wrong quiz answers, and at the end of a quiz.
 
+## Motion
+- Each body has `features` (surface spots, drawn with the `spot()` helper) layered over its base `look`. On the fact card, the features scroll across the planet so it looks like it's spinning; edge shading makes it look round. Venus spins backward (`spin: "backward"`) and Uranus rolls sideways (`spin: "sideways"`).
+- The fact card zooms in when opened; with ◀ ▶ the next planet flies in from that side. The Sun's glow pulses.
+- Two layers of twinkling stars sit behind the page.
+- All of this is turned off with `prefers-reduced-motion`.
+
 ## Read-aloud
 `speechSynthesis` with rate 0.85. 🔊 buttons on fact cards and quiz questions. Hidden if the browser lacks support.
 

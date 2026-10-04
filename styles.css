@@ -1,12 +1,5 @@
 * { box-sizing: border-box; }
-html { background: #05071a; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: "Comic Sans MS", "Chalkboard SE", "Trebuchet MS", system-ui, sans-serif;
-  font-size: 20px;
-  color: #fff;
+html {
   background:
     radial-gradient(1px 1px at 10% 20%, #fff, transparent),
     radial-gradient(1.5px 1.5px at 30% 80%, #fff, transparent),
@@ -19,6 +12,44 @@ body {
     radial-gradient(ellipse at top, #1b2a6b, #0a0f2e 60%, #05071a);
   background-size: 300px 300px, 300px 300px, 300px 300px, 300px 300px, 300px 300px, 300px 300px, 300px 300px, 300px 300px, 100% 100%;
   background-attachment: fixed;
+  background-color: #05071a;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Comic Sans MS", "Chalkboard SE", "Trebuchet MS", system-ui, sans-serif;
+  font-size: 20px;
+  color: #fff;
+}
+
+/* Twinkling stars, behind everything */
+body::before, body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  animation: twinkle 2.6s ease-in-out infinite alternate;
+}
+body::before {
+  background:
+    radial-gradient(2px 2px at 15% 30%, #fff, transparent),
+    radial-gradient(2.5px 2.5px at 48% 12%, #ffe9a8, transparent),
+    radial-gradient(2px 2px at 78% 48%, #fff, transparent),
+    radial-gradient(2.5px 2.5px at 88% 86%, #cfe3ff, transparent),
+    radial-gradient(2px 2px at 33% 70%, #fff, transparent);
+  background-size: 420px 420px;
+}
+body::after {
+  background:
+    radial-gradient(2px 2px at 8% 82%, #cfe3ff, transparent),
+    radial-gradient(2.5px 2.5px at 40% 44%, #fff, transparent),
+    radial-gradient(2px 2px at 64% 22%, #ffe9a8, transparent),
+    radial-gradient(2.5px 2.5px at 93% 60%, #fff, transparent);
+  background-size: 360px 360px;
+  animation-duration: 3.7s;
+  animation-delay: -1.5s;
+}
+@keyframes twinkle {
+  from { opacity: 1; }
+  to { opacity: 0.15; }
 }
 
 button, select, input { font: inherit; }
@@ -142,6 +173,25 @@ main { padding: 16px; max-width: 1000px; margin: 0 auto; }
 .hidden { display: none; }
 .fact { position: relative; max-width: 560px; width: 100%; max-height: 95vh; overflow: auto; text-align: center; margin: 0; }
 .fact-pic { display: flex; justify-content: center; align-items: center; height: 170px; }
+/* Whoosh: the card zooms in, and each planet flies in (from the side you're heading to). */
+.overlay:not(.hidden) .fact { animation: whoosh 0.45s cubic-bezier(0.2, 1.3, 0.4, 1); }
+@keyframes whoosh {
+  from { transform: scale(0.3) rotate(-8deg); opacity: 0; }
+}
+.fact-pic .planet { animation: fly-in 0.5s cubic-bezier(0.2, 1.3, 0.4, 1); }
+.fact-pic .planet.sun { animation: fly-in 0.5s cubic-bezier(0.2, 1.3, 0.4, 1), glow 2.5s ease-in-out infinite alternate; }
+@keyframes fly-in {
+  from { transform: translateX(var(--from, 0)) scale(0.2); opacity: 0; }
+}
+@keyframes glow {
+  from { box-shadow: 0 0 40px 10px rgba(255, 190, 40, 0.6); }
+  to { box-shadow: 0 0 70px 24px rgba(255, 170, 30, 0.8); }
+}
+/* Shade the edges of a spinning planet so it looks like a turning ball. */
+.planet.spin:not(.sun)::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 38% 38%, transparent 45%, rgba(0, 0, 20, 0.45) 72%);
+}
 .fact-name { font-size: 2.4rem; margin: 6px 0; }
 .badge { display: inline-block; background: #ffd23f; color: #1a1a40; border-radius: 999px; padding: 4px 16px; margin: 0 0 10px; }
 .fact-list { text-align: left; font-size: 1.25rem; line-height: 1.5; padding-left: 1.4em; }
@@ -219,7 +269,8 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit, .moon-orbit, .body-btn, #bruno, #bruno .wave, #bruno .blink, .bubble.pop-in { animation-duration: 0s !important; }
+  .orbit, .moon-orbit, .body-btn, #bruno, #bruno .wave, #bruno .blink, .bubble.pop-in,
+  .overlay:not(.hidden) .fact, .fact-pic .planet, body::before, body::after { animation-duration: 0s !important; }
 }
 
 /* ---------- Bruno reacting ---------- */
