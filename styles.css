@@ -269,7 +269,12 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit, .moon-orbit, .body-btn, #bruno, #bruno .wave, #bruno .blink, .bubble.pop-in,
+  /* Planets stay still, spread around the Sun; labels stay upright. */
+  .orbit { animation: none !important; rotate: var(--angle); }
+  .orbit-body > .body-btn { animation: none !important; rotate: calc(-1 * var(--angle)); }
+  .moon-orbit { animation: none !important; rotate: -40deg; }
+  #pause { display: none; }
+  #bruno, #bruno .wave, #bruno .blink, .bubble.pop-in,
   .overlay:not(.hidden) .fact, .fact-pic .planet, body::before, body::after { animation-duration: 0s !important; }
 }
 
@@ -291,6 +296,9 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
   animation: spin var(--dur) linear infinite;
 }
 .moon-orbit .body-btn { padding: 4px; min-width: 36px; min-height: 36px; }
+/* Where the Moon and its planet overlap, the planet gets the tap. */
+.moon-orbit { z-index: 0; }
+.orbit-body > .body-btn:not(.moon-orbit .body-btn) { z-index: 1; }
 #system.paused .moon-orbit { animation-play-state: paused; }
 
 /* ---------- Sticker book ---------- */
@@ -312,6 +320,7 @@ input[type=range] { width: min(500px, 90%); height: 40px; display: block; margin
 .toast {
   position: fixed; left: 50%; bottom: 24px; z-index: 20;
   translate: -50% 0;
+  pointer-events: none; /* never block taps on what's underneath */
   display: flex; align-items: center; gap: 14px;
   padding: 12px 22px; border-radius: 999px;
   background: #ffd23f; color: #1a1a40; font-size: 1.3rem; font-weight: bold;

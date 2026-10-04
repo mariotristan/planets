@@ -45,17 +45,21 @@
       const dur = 8 * Math.pow(body.order, 1.1) + "s";
       orbit.style.setProperty("--dur", dur);
       btn.style.setProperty("--dur", dur);
-      // Start each planet at a different spot around the Sun.
-      orbit.style.animationDelay = btn.style.animationDelay = -(body.order * 37) % 60 + "s";
+      // Start each planet at a different spot around the Sun (the golden angle spreads them out).
+      // With reduced motion they stay at this spot instead of orbiting.
+      const angle = (body.order * 137.5) % 360;
+      orbit.style.setProperty("--angle", angle + "deg");
+      orbit.style.animationDelay = btn.style.animationDelay = -(angle / 360) * parseFloat(dur) + "s";
       const holder = document.createElement("div");
       holder.className = "orbit-body";
       holder.appendChild(btn);
       BODIES.filter((m) => m.orbits === body.id).forEach((moon) => {
-        // A small, fast orbit hugging the planet.
+        // A small, fast orbit just outside the planet's tap area, so both stay tappable.
         const moonOrbit = document.createElement("div");
         moonOrbit.className = "moon-orbit";
-        const r = sizeOf(body, w) * 1.9;
-        moonOrbit.style.width = moonOrbit.style.height = r + "px";
+        const planetTap = Math.max(48, sizeOf(body, w) + 12);
+        const d = planetTap + 24;
+        moonOrbit.style.width = moonOrbit.style.height = d + "px";
         moonOrbit.style.setProperty("--dur", "4s");
         const moonHolder = document.createElement("div");
         moonHolder.className = "orbit-body";
