@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planet Explorer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🚀 Planet Explorer</h1>
+    <nav>
+      <button class="tab active" data-tab="explore">🪐<span>Explore</span></button>
+      <button class="tab" data-tab="compare">⚖️<span>Compare</span></button>
+      <button class="tab" data-tab="quiz">❓<span>Quiz</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="explore" class="panel active">
+      <p class="hint">Tap a planet to learn about it!</p>
+      <div id="system"></div>
+      <button id="pause" class="big-btn">⏸️ Pause</button>
+    </section>
+
+    <section id="compare" class="panel">
+      <div class="card">
+        <h2>📏 How big?</h2>
+        <div class="pickers">
+          <select id="sizeA" aria-label="First planet"></select>
+          <span class="vs">vs</span>
+          <select id="sizeB" aria-label="Second planet"></select>
+        </div>
+        <div id="sizeView"></div>
+        <p id="sizeText" class="say"></p>
+      </div>
+      <div class="card">
+        <h2>⚖️ How much would I weigh?</h2>
+        <div class="weight-input">
+          <label for="weight">I weigh <strong id="weightValue"></strong></label>
+          <input type="range" id="weight" min="20" max="250" value="50">
+          <div class="unit-toggle">
+            <button class="unit active" data-unit="lb">pounds</button>
+            <button class="unit" data-unit="kg">kilograms</button>
+          </div>
+        </div>
+        <div id="weightGrid"></div>
+      </div>
+    </section>
+
+    <section id="quiz" class="panel">
+      <div id="quizBox" class="card"></div>
+    </section>
+  </main>
+
+  <div id="factCard" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="card fact">
+      <button class="close" aria-label="Close">✕</button>
+      <div class="fact-pic"></div>
+      <h2 class="fact-name"></h2>
+      <p class="badge"></p>
+      <ul class="fact-list"></ul>
+      <div class="fact-nav">
+        <button class="big-btn prev" aria-label="Previous">◀</button>
+        <button class="big-btn speak">🔊 Read to me</button>
+        <button class="big-btn next" aria-label="Next">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="explore.js"></script>
+  <script src="compare.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>
