@@ -1,7 +1,7 @@
 # Planet Explorer — Design
 
 ## Goal
-An interactive website that teaches a 6–8-year-old early reader about the Sun, the 8 planets, the Moon and Pluto, guided by Astronaut Bruno. Works on tablets (touch), phones and computers (mouse). Runs offline by opening `index.html`; no install, accounts, or external assets.
+An interactive website that teaches a 6–8-year-old early reader about the Sun, the 8 planets, the Moon and Pluto, guided by Astronaut Bruno. Works on tablets (touch), phones and computers (mouse). Runs offline by opening `index.html`; no install, accounts, or external assets. Hosted on GitHub Pages (https://mariotristan.github.io/planets/), where it can also be installed on a tablet or phone home screen and works offline after the first visit.
 
 ## Tech
 Plain HTML/CSS/JS, no build step, no dependencies. Planets are drawn with CSS gradients and the rocket sound is synthesized with the Web Audio API, so there are no image or sound files.
@@ -16,6 +16,9 @@ Plain HTML/CSS/JS, no build step, no dependencies. Planets are drawn with CSS gr
 - `fly.js` — Fly with Bruno rocket trips and the rocket sound
 - `quiz.js` — quiz game
 - `stickers.js` — sticker book and "New sticker!" pop-ups
+- `manifest.webmanifest` — app name, icons and colors for installing
+- `sw.js` — service worker that saves all files for offline use
+- `icons/` — `icon.svg` (source artwork and favicon) and the PNG app icons rendered from it
 
 ## Tabs
 Tab order: Explore, Compare, Fly, Quiz, Stickers.
@@ -55,6 +58,13 @@ The Moon (`orbits: "earth"`) circles Earth in Explore on a small orbit just outs
 - **Read-aloud:** `speechSynthesis` with rate 0.85 and pitch 1.1. 🔊 buttons on fact cards and quiz questions; quiz cheers and the end-of-quiz result are spoken automatically. Hidden if the browser lacks support. Emoji are stripped before speaking.
 - **Rocket sound (Fly):** brown noise through a low-pass filter, made with the Web Audio API. It roars up at blast-off (filter opens 300 → 1400 Hz in 0.4s, volume fades in over 0.25s), holds for 75% of the flight, and fades out by landing. The audio context is created on the first tap so browsers allow it to play. There is no mute button; the device volume or silent mode controls it.
 
+## Install and offline
+- **Manifest** (`manifest.webmanifest`): name "Astronaut Bruno Tristan's Planet Explorer", short name "Planets", `display: standalone` (opens without browser bars), relative `start_url`/`scope` (`./`) so it works under the `/planets/` path on GitHub Pages; background `#05071a`, theme `#1b2a6b`.
+- **Icon**: Bruno's helmet on a starry navy background. `icons/icon.svg` is the source and the browser-tab favicon. PNGs: `icon-192.png` and `icon-512.png` (rounded corners, Android), `icon-maskable-512.png` (full-bleed, art shrunk into the safe zone so Android can crop it), `apple-touch-icon.png` (180px, full-bleed; iOS rounds the corners). PNGs are rendered from the SVG with a headless browser; re-render them if the SVG changes.
+- **iOS**: `apple-mobile-web-app-capable` and related meta tags so "Add to Home Screen" opens full screen.
+- **Service worker** (`sw.js`): on install it saves every file in `FILES` to the cache `planets-v1`. Requests are answered from the cache right away (works with no network), and each file is re-downloaded in the background so the next visit gets updates. Old caches are deleted on activate. **When adding a new file to the app, add it to `FILES`.**
+- Registered from `app.js` only over http(s); browsers don't allow service workers for `file://`, so opening `index.html` directly still works but isn't installable.
+
 ## Layout
 - Desktop/tablet: tabs in one row with icon and label side by side.
 - Phones (≤ 600px): all 5 tabs fit in one row (icon above label); Bruno and the fonts get smaller; Fly trip times show as a 2×2 grid; the rocket is smaller.
@@ -81,7 +91,9 @@ Use a browser at desktop (1024px) and phone (390px) widths, with and without red
 - Fly: fly to every destination; check the distance text, trip times, Bruno's line, and that the engine sound plays for the length of the flight.
 - Quiz: play full rounds; check stars, best score and quiz stickers.
 - Stickers: check stickers unlock, pop-ups appear, and progress survives a reload.
+- Install/offline (served over http, e.g. `python3 -m http.server` from the parent folder, at `/planets/`): Chrome reports no installability or manifest errors; all files are cached; after going offline and reloading, every tab works; after changing a file, the second reload shows the change.
+- Opening `index.html` as a file still works.
 - No console errors.
 
 ## Backlog
-Planned features are tracked as GitHub issues: https://github.com/mariotristan/planets/issues. Done so far: #2 (Make planets feel alive), #4 (Fly with Bruno).
+Planned features are tracked as GitHub issues: https://github.com/mariotristan/planets/issues. Done so far: #2 (Make planets feel alive), #4 (Fly with Bruno), #9 (Install on a tablet like an app), #12 (Add a favicon).

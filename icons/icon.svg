@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="sky" cx="0.5" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#1b2a6b"/><stop offset="1" stop-color="#05071a"/>
+    </radialGradient>
+    <radialGradient id="helmet" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9d3e6"/>
+    </radialGradient>
+    <radialGradient id="visor" cx="0.35" cy="0.3" r="0.9">
+      <stop offset="0" stop-color="#3b5bd6"/><stop offset="0.6" stop-color="#1b2a6b"/><stop offset="1" stop-color="#0a1033"/>
+    </radialGradient>
+  </defs>
+  <rect class="bg" width="512" height="512" rx="104" fill="url(#sky)"/>
+  <circle cx="84" cy="96" r="7" fill="#fff"/>
+  <circle cx="440" cy="150" r="6" fill="#ffd23f"/>
+  <circle cx="420" cy="430" r="7" fill="#fff"/>
+  <circle cx="70" cy="400" r="5" fill="#cfe3ff"/>
+  <g class="art">
+    <line x1="296" y1="118" x2="318" y2="72" stroke="#9aa8c4" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="320" cy="66" r="18" fill="#ff5c7a"/>
+    <circle cx="96" cy="262" r="24" fill="#9aa8c4"/><circle cx="96" cy="262" r="12" fill="#ff5c7a"/>
+    <circle cx="416" cy="262" r="24" fill="#9aa8c4"/><circle cx="416" cy="262" r="12" fill="#ff5c7a"/>
+    <circle cx="256" cy="262" r="152" fill="url(#helmet)"/>
+    <rect x="148" y="180" width="216" height="164" rx="76" fill="url(#visor)" stroke="#9aa8c4" stroke-width="12"/>
+    <circle cx="218" cy="258" r="15" fill="#ffd23f"/>
+    <circle cx="294" cy="258" r="15" fill="#ffd23f"/>
+    <path d="M216 294 q40 32 80 0" stroke="#ffd23f" stroke-width="13" fill="none" stroke-linecap="round"/>
+    <path d="M182 222 q30 -28 74 -16" stroke="#fff" stroke-opacity="0.7" stroke-width="14" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

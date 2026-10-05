@@ -13,7 +13,15 @@ An interactive website that teaches young kids (ages 6–8) about the Sun, the 8
 
 ## Running it
 
-No install, no build, no internet needed. Just open `index.html` in a browser.
+**Online:** https://mariotristan.github.io/planets/
+
+**Install it like an app:** open the link on a tablet or phone, then
+- **iPad / iPhone (Safari):** Share → **Add to Home Screen**
+- **Android (Chrome):** menu ⋮ → **Install app** (or **Add to Home screen**)
+
+It opens full screen and works with no internet after the first visit.
+
+**Locally:** no install, no build, no internet needed. Just open `index.html` in a browser.
 
 Progress (best quiz score, stickers) is saved in the browser's `localStorage`.
 
@@ -30,6 +38,9 @@ Progress (best quiz score, stickers) is saved in the browser's `localStorage`.
 | `fly.js` | Fly with Bruno rocket trips |
 | `quiz.js` | Quiz game |
 | `stickers.js` | Sticker book and "New sticker!" pop-ups |
+| `manifest.webmanifest` | App name, icons and colors for installing |
+| `sw.js` | Saves all files for offline use (add any new file to its `FILES` list) |
+| `icons/` | App icon (`icon.svg` source, also the favicon) and PNG sizes |
 
 The full design is in [`docs/superpowers/specs/2026-10-03-planets-design.md`](docs/superpowers/specs/2026-10-03-planets-design.md).
 

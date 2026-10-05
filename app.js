@@ -72,3 +72,9 @@ tabs.forEach((tab) =>
     );
   })
 );
+
+// Save the app for offline use and installing on a tablet. Browsers only allow this
+// over https or localhost, so it's skipped when index.html is opened as a file.
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  navigator.serviceWorker.register("sw.js");
+}
