@@ -2,7 +2,9 @@
 // Pages load from the saved copy right away, and each file is re-downloaded in the
 // background so the next visit gets any updates.
 
-const CACHE = "planets-v2";
+// Every game on mariotristan.github.io shares one Cache Storage: only ever touch our own caches.
+const CACHE_PREFIX = "planets-";
+const CACHE = `${CACHE_PREFIX}v2`;
 const FILES = [
   "./",
   "index.html",
@@ -30,7 +32,7 @@ self.addEventListener("install", (e) => {
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => k.startsWith(CACHE_PREFIX) && k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
