@@ -6,10 +6,15 @@
   const view = document.getElementById("sizeView");
   const text = document.getElementById("sizeText");
 
-  BODIES.forEach((b) => {
-    selA.add(new Option(b.name, b.id));
-    selB.add(new Option(b.name, b.id));
-  });
+  function fillPickers() {
+    [selA, selB].forEach((sel) => {
+      const picked = sel.value;
+      sel.innerHTML = "";
+      BODIES.forEach((b) => sel.add(new Option(tr(b).name, b.id)));
+      sel.value = picked;
+    });
+  }
+  fillPickers();
   selA.value = "earth";
   selB.value = "jupiter";
 
@@ -25,21 +30,18 @@
       item.className = "size-item";
       item.appendChild(drawPlanet(body, Math.max(2, px)));
       const label = document.createElement("div");
-      label.textContent = body.name + (px < 6 ? " (tiny dot!)" : "");
+      label.textContent = tr(body).name + (px < 6 ? t("tinyDot") : "");
       item.appendChild(label);
       view.appendChild(item);
     });
 
     if (a === b) {
-      text.textContent = "They are exactly the same size, silly! 😄";
+      text.textContent = t("sameSize");
       return;
     }
     const [big, small] = a.diameterKm >= b.diameterKm ? [a, b] : [b, a];
     const times = big.diameterKm / small.diameterKm;
-    text.textContent = times < 1.15
-      ? big.name + " and " + small.name + " are almost the same size!"
-      : big.name + " is about " + Math.round(times).toLocaleString() +
-        " times wider than " + small.name + "!";
+    text.textContent = times < 1.15 ? t("almostSame", big, small) : t("timesWider", big, small, Math.round(times));
   }
 
   // Bruno reacts when the child picks a new pair.
@@ -49,11 +51,12 @@
     const a = byId(selA.value);
     const b = byId(selB.value);
     const times = Math.max(a.diameterKm, b.diameterKm) / Math.min(a.diameterKm, b.diameterKm);
-    setBruno(a === b ? "Hee hee, that's the same one twice! 😄"
-      : times > 50 ? "WHOA! That's GIGANTIC! 🤯"
-      : times > 5 ? "Wow, what a big difference! 😮"
-      : times > 1.15 ? "Hmm, one is a bit bigger! 🔍"
-      : "They're like twins! 👯");
+    const react = t("sizeReact");
+    setBruno(a === b ? react.same
+      : times > 50 ? react.huge
+      : times > 5 ? react.big
+      : times > 1.15 ? react.bit
+      : react.twins);
   }
   selA.addEventListener("change", pickedSizes);
   selB.addEventListener("change", pickedSizes);
@@ -81,17 +84,16 @@
 
   function showWeights() {
     const w = Number(slider.value);
-    const unitName = unit === "lb" ? "pounds" : "kilograms";
-    valueEl.textContent = w + " " + unitName;
+    valueEl.textContent = num(w) + " " + t(unit === "lb" ? "pounds" : "kilograms");
     grid.innerHTML = "";
     BODIES.forEach((body) => {
       const tile = document.createElement("div");
       tile.className = "weight-tile";
       tile.appendChild(drawPlanet(body, body.rings ? 50 : 60));
       tile.insertAdjacentHTML("beforeend",
-        "<div>On " + body.name + "</div>" +
-        "<strong>" + Math.round(w * body.gravity).toLocaleString() + " " + unit + "</strong>" +
-        "<small>" + body.weightJoke + "</small>");
+        "<div>" + t("onBody", body) + "</div>" +
+        "<strong>" + num(Math.round(w * body.gravity)) + " " + unit + "</strong>" +
+        "<small>" + tr(body).weightJoke + "</small>");
       grid.appendChild(tile);
     });
   }
@@ -104,12 +106,16 @@
     const places = BODIES.filter((b) => b.id !== "sun");
     const heavy = places.reduce((a, b) => (b.gravity > a.gravity ? b : a));
     const light = places.reduce((a, b) => (b.gravity < a.gravity ? b : a));
-    const unitName = unit === "lb" ? "pounds" : "kilograms";
-    setBruno("On " + heavy.name + " you'd weigh " + Math.round(w * heavy.gravity) + " " + unitName +
-      ", but on " + light.name + " only " + Math.round(w * light.gravity) + " " + unitName + "! Boing! 🦘");
+    setBruno(t("weighReact", heavy, num(Math.round(w * heavy.gravity)), light, num(Math.round(w * light.gravity)),
+      t(unit === "lb" ? "pounds" : "kilograms")));
   });
 
   showWeights();
+  document.addEventListener("langchange", () => {
+    fillPickers();
+    showSizes();
+    showWeights();
+  });
   // Size view needs layout; wait until the Compare tab is visible the first time.
   document.querySelector('[data-tab="compare"]').addEventListener("click", () =>
     requestAnimationFrame(showSizes)

@@ -1,6 +1,6 @@
 # 🚀 Astronaut Bruno Tristan's Planet Explorer
 
-An interactive website that teaches young kids (ages 6–8) about the Sun, the 8 planets, the Moon and Pluto, guided by Astronaut Bruno. It works on tablets (touch) and computers (mouse).
+An interactive website that teaches young kids (ages 6–8) about the Sun, the 8 planets, the Moon and Pluto, guided by Astronaut Bruno. It works on tablets (touch) and computers (mouse), in English and Spanish.
 
 ## Features
 
@@ -10,6 +10,7 @@ An interactive website that teaches young kids (ages 6–8) about the Sun, the 8
 - **❓ Quiz**: 8 random questions per round from a bank of 30. Earn a ⭐ for each first-try answer; your best score is saved.
 - **🏅 Stickers**: Collect a stamp for every body you visit, plus badges for the quiz, Compare and Fly tabs.
 - **👨‍🚀 Astronaut Bruno**: He reacts to what you do (planet cards, comparisons, quiz answers). Tap him to hear him talk.
+- **🌎 English / Español**: Switch languages any time with the buttons at the top; read-aloud switches too. The choice is remembered, and Spanish browsers start in Spanish.
 
 ## Running it
 
@@ -31,7 +32,8 @@ Progress (best quiz score, stickers) is saved in the browser's `localStorage`.
 |---|---|
 | `index.html` | Page shell, tabs and Astronaut Bruno |
 | `styles.css` | All styling (planets are drawn with CSS gradients, no images) |
-| `data.js` | All content: bodies, facts, Bruno's lines, quiz questions |
+| `data.js` | All content: bodies, facts, Bruno's lines, quiz questions (each with Spanish in `es`) |
+| `i18n.js` | Language switch and all other words in English and Spanish |
 | `app.js` | Tabs, read-aloud, Bruno's speech bubble, planet drawing |
 | `explore.js` | Orbiting solar system and fact cards |
 | `compare.js` | Size comparison and weight calculator |
@@ -51,9 +53,14 @@ Everything kids see lives in `data.js`:
 - **Facts and Bruno's lines**: edit a body's `facts` or `bruno` field.
 - **Trip speeds**: edit `TRAVEL`; distances are each body's `fromEarthKm`.
 - **Quiz questions**: add an entry to `QUIZ`. Answers that match a body id (like `"mars"`) show a planet picture; anything else shows as text.
+- **Spanish**: every body, travel way and quiz question has an `es` part; give new content one too. Other words (buttons, Bruno's reactions) are in `i18n.js`.
 
 Sizes, gravity and distances come from NASA's planetary fact sheets.
 
 ## Backlog
 
 Planned features are tracked as [GitHub issues](https://github.com/mariotristan/planets/issues).
+
+## License
+
+[MIT](LICENSE)

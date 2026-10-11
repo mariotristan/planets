@@ -25,12 +25,14 @@ function drawPlanet(body, size, spin) {
   return el;
 }
 
-// Read-aloud using the browser's built-in voice.
+// Read-aloud using the browser's built-in voice, in the current language.
 const canSpeak = "speechSynthesis" in window;
 function speak(text) {
   if (!canSpeak) return;
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
+  // Emoji and symbols are dropped so they aren't read out; accented letters and ¡¿ stay.
+  const u = new SpeechSynthesisUtterance(text.replace(/[^\p{L}\p{N}\s!?¡¿,.']/gu, ""));
+  u.lang = lang === "es" ? "es-MX" : "en-US";
   u.rate = 0.85;
   u.pitch = 1.1;
   speechSynthesis.speak(u);
@@ -40,13 +42,6 @@ function stopSpeaking() {
 }
 
 // Astronaut Bruno, the guide. Tap him to hear what he says.
-const brunoSays = {
-  explore: "Hi! I'm Astronaut Bruno Tristan! Tap a planet and let's fly there! 🚀",
-  compare: "How big are the planets? How much would I weigh there? Let's find out!",
-  fly: "Where should we fly today? Pick a place and blast off! 🚀",
-  quiz: "Ready for a space quiz? Let's earn some stars! ⭐",
-  stickers: "Look at all the stickers you collected! Can you get them all? 🏅",
-};
 const bubble = document.getElementById("bubble");
 function setBruno(text) {
   bubble.textContent = text;
@@ -55,23 +50,27 @@ function setBruno(text) {
   void bubble.offsetWidth;
   bubble.classList.add("pop-in");
 }
-document.getElementById("bruno").addEventListener("click", () =>
-  speak(bubble.textContent.replace(/[^\w\s!?,.']/g, ""))
-);
-setBruno(brunoSays.explore);
+document.getElementById("bruno").addEventListener("click", () => speak(bubble.textContent));
+setBruno(t("brunoSays").explore);
 
 // Tabs
 const tabs = document.querySelectorAll(".tab");
 tabs.forEach((tab) =>
   tab.addEventListener("click", () => {
     stopSpeaking();
-    setBruno(brunoSays[tab.dataset.tab]);
+    setBruno(t("brunoSays")[tab.dataset.tab]);
     tabs.forEach((t) => t.classList.toggle("active", t === tab));
     document.querySelectorAll(".panel").forEach((p) =>
       p.classList.toggle("active", p.id === tab.dataset.tab)
     );
   })
 );
+
+// After switching language, Bruno says the current tab's intro in the new language.
+document.addEventListener("langchange", () => {
+  stopSpeaking();
+  setBruno(t("brunoSays")[document.querySelector(".tab.active").dataset.tab]);
+});
 
 // Save the app for offline use and installing on a tablet. Browsers only allow this
 // over https or localhost, so it's skipped when index.html is opened as a file.

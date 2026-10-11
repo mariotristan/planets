@@ -15,7 +15,7 @@
   function bodyButton(body, w) {
     const btn = document.createElement("button");
     btn.className = "body-btn";
-    btn.setAttribute("aria-label", body.name);
+    btn.setAttribute("aria-label", tr(body).name);
     btn.appendChild(drawPlanet(body, sizeOf(body, w)));
     btn.addEventListener("click", () => openCard(BODIES.indexOf(body)));
     return btn;
@@ -29,7 +29,7 @@
       const btn = bodyButton(body, w);
       const label = document.createElement("span");
       label.className = "label";
-      label.textContent = body.name;
+      label.textContent = tr(body).name;
       btn.appendChild(label);
 
       if (body.id === "sun") {
@@ -83,11 +83,18 @@
     pic.innerHTML = "";
     pic.style.setProperty("--from", (dir || 0) * 160 + "px");
     pic.appendChild(drawPlanet(body, body.rings ? 110 : 140, true));
-    card.querySelector(".fact-name").textContent = body.name;
-    setBruno(body.bruno);
+    fillCard();
+    setBruno(tr(body).bruno);
     earnSticker("visit-" + body.id);
-    card.querySelector(".badge").textContent =
-      body.badge || "Planet #" + body.order + " from the Sun";
+    overlay.classList.remove("hidden");
+    card.querySelector(".speak").focus();
+  }
+
+  // The card's words, in the current language.
+  function fillCard() {
+    const body = tr(BODIES[current]);
+    card.querySelector(".fact-name").textContent = body.name;
+    card.querySelector(".badge").textContent = body.badge || t("planetNumber", body.order);
     const list = card.querySelector(".fact-list");
     list.innerHTML = "";
     body.facts.forEach((f) => {
@@ -95,8 +102,6 @@
       li.textContent = f;
       list.appendChild(li);
     });
-    overlay.classList.remove("hidden");
-    card.querySelector(".speak").focus();
   }
 
   function closeCard() {
@@ -118,16 +123,24 @@
   const speakBtn = card.querySelector(".speak");
   if (!canSpeak) speakBtn.style.display = "none";
   speakBtn.addEventListener("click", () => {
-    const body = BODIES[current];
+    const body = tr(BODIES[current]);
     speak(body.name + ". " + body.facts.join(" "));
   });
 
+  const showPause = () =>
+    (pauseBtn.textContent = t(system.classList.contains("paused") ? "play" : "pause"));
   pauseBtn.addEventListener("click", () => {
-    const paused = system.classList.toggle("paused");
-    pauseBtn.textContent = paused ? "▶️ Play" : "⏸️ Pause";
+    system.classList.toggle("paused");
+    showPause();
   });
 
   buildSystem();
+  showPause();
+  document.addEventListener("langchange", () => {
+    buildSystem();
+    showPause();
+    if (!overlay.classList.contains("hidden")) fillCard();
+  });
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);

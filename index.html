@@ -19,9 +19,13 @@
 </head>
 <body>
   <header>
-    <h1>🚀 Astronaut Bruno Tristan's Planet Explorer</h1>
+    <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+      <button class="lang" data-lang="en" lang="en">English</button>
+      <button class="lang" data-lang="es" lang="es">Español</button>
+    </div>
+    <h1>🚀 <span data-i18n="title">Astronaut Bruno Tristan's Planet Explorer</span></h1>
     <div class="guide">
-      <button id="bruno" aria-label="Astronaut Bruno Tristan. Tap to hear him talk!">
+      <button id="bruno" data-i18n-label="brunoLabel" aria-label="Astronaut Bruno Tristan. Tap to hear him talk!">
         <svg viewBox="0 -12 120 162" width="88" height="119" aria-hidden="true">
           <defs>
             <linearGradient id="suit" x1="0" y1="0" x2="1" y2="0">
@@ -101,40 +105,40 @@
       <p id="bubble" class="bubble" aria-live="polite"></p>
     </div>
     <nav>
-      <button class="tab active" data-tab="explore">🪐<span>Explore</span></button>
-      <button class="tab" data-tab="compare">⚖️<span>Compare</span></button>
-      <button class="tab" data-tab="fly">🚀<span>Fly</span></button>
-      <button class="tab" data-tab="quiz">❓<span>Quiz</span></button>
-      <button class="tab" data-tab="stickers">🏅<span>Stickers</span></button>
+      <button class="tab active" data-tab="explore">🪐<span data-i18n="tabExplore">Explore</span></button>
+      <button class="tab" data-tab="compare">⚖️<span data-i18n="tabCompare">Compare</span></button>
+      <button class="tab" data-tab="fly">🚀<span data-i18n="tabFly">Fly</span></button>
+      <button class="tab" data-tab="quiz">❓<span data-i18n="tabQuiz">Quiz</span></button>
+      <button class="tab" data-tab="stickers">🏅<span data-i18n="tabStickers">Stickers</span></button>
     </nav>
   </header>
 
   <main>
     <section id="explore" class="panel active">
-      <p class="hint">Tap a planet to learn about it!</p>
+      <p class="hint" data-i18n="exploreHint">Tap a planet to learn about it!</p>
       <div id="system"></div>
       <button id="pause" class="big-btn">⏸️ Pause</button>
     </section>
 
     <section id="compare" class="panel">
       <div class="card">
-        <h2>📏 How big?</h2>
+        <h2 data-i18n="howBig">📏 How big?</h2>
         <div class="pickers">
-          <select id="sizeA" aria-label="First planet"></select>
-          <span class="vs">vs</span>
-          <select id="sizeB" aria-label="Second planet"></select>
+          <select id="sizeA" data-i18n-label="firstPlanet" aria-label="First planet"></select>
+          <span class="vs" data-i18n="vs">vs</span>
+          <select id="sizeB" data-i18n-label="secondPlanet" aria-label="Second planet"></select>
         </div>
         <div id="sizeView"></div>
         <p id="sizeText" class="say"></p>
       </div>
       <div class="card">
-        <h2>⚖️ How much would I weigh?</h2>
+        <h2 data-i18n="howMuchWeigh">⚖️ How much would I weigh?</h2>
         <div class="weight-input">
-          <label for="weight">I weigh <strong id="weightValue"></strong></label>
+          <label for="weight"><span data-i18n="iWeigh">I weigh</span> <strong id="weightValue"></strong></label>
           <input type="range" id="weight" min="20" max="250" value="50">
           <div class="unit-toggle">
-            <button class="unit active" data-unit="lb">pounds</button>
-            <button class="unit" data-unit="kg">kilograms</button>
+            <button class="unit active" data-unit="lb" data-i18n="pounds">pounds</button>
+            <button class="unit" data-unit="kg" data-i18n="kilograms">kilograms</button>
           </div>
         </div>
         <div id="weightGrid"></div>
@@ -143,8 +147,8 @@
 
     <section id="fly" class="panel">
       <div class="card">
-        <h2>🚀 Fly with Bruno</h2>
-        <p class="hint">Where should we fly from Earth?</p>
+        <h2 data-i18n="flyTitle">🚀 Fly with Bruno</h2>
+        <p class="hint" data-i18n="flyHint">Where should we fly from Earth?</p>
         <div id="destinations"></div>
         <div class="trip">
           <div class="trip-end" id="tripFrom"></div>
@@ -181,7 +185,7 @@
 
     <section id="stickers" class="panel">
       <div class="card">
-        <h2>🏅 My Sticker Book</h2>
+        <h2 data-i18n="stickerBook">🏅 My Sticker Book</h2>
         <p id="stickerCount" class="say"></p>
         <div id="stickerGrid"></div>
       </div>
@@ -190,15 +194,15 @@
 
   <div id="factCard" class="overlay hidden" role="dialog" aria-modal="true">
     <div class="card fact">
-      <button class="close" aria-label="Close">✕</button>
+      <button class="close" data-i18n-label="close" aria-label="Close">✕</button>
       <div class="fact-pic"></div>
       <h2 class="fact-name"></h2>
       <p class="badge"></p>
       <ul class="fact-list"></ul>
       <div class="fact-nav">
-        <button class="big-btn prev" aria-label="Previous">◀</button>
-        <button class="big-btn speak">🔊 Read to me</button>
-        <button class="big-btn next" aria-label="Next">▶</button>
+        <button class="big-btn prev" data-i18n-label="previous" aria-label="Previous">◀</button>
+        <button class="big-btn speak" data-i18n="readToMe">🔊 Read to me</button>
+        <button class="big-btn next" data-i18n-label="next" aria-label="Next">▶</button>
       </div>
     </div>
   </div>
@@ -206,6 +210,7 @@
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
   <script src="data.js"></script>
+  <script src="i18n.js"></script>
   <script src="app.js"></script>
   <script src="stickers.js"></script>
   <script src="explore.js"></script>

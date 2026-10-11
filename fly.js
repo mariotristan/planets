@@ -9,7 +9,7 @@
   const rocket = document.querySelector(".rocket");
   const text = document.getElementById("tripText");
   const grid = document.getElementById("travelGrid");
-  let flight;
+  let flight, landed;
 
   let trips;
   try {
@@ -18,15 +18,8 @@
     trips = new Set();
   }
 
-  // 54600000 -> "55 million", 4300000000 -> "4.3 billion"
-  function bigNumber(n) {
-    if (n >= 1e9) return +(n / 1e9).toFixed(1) + " billion";
-    if (n >= 1e6) return Math.round(n / 1e6) + " million";
-    return (Math.round(n / 100) * 100).toLocaleString();
-  }
-
-  function plural(n, word) {
-    return n.toLocaleString() + " " + word + (n === 1 ? "" : "s");
+  function plural(n, unit) {
+    return num(n) + " " + t("units")[unit][n === 1 ? 0 : 1];
   }
 
   function duration(hours) {
@@ -86,9 +79,10 @@
       b.classList.toggle("active", b.dataset.id === body.id);
     });
     picture(toEl, body);
-    text.textContent = "3… 2… 1… Blast off! 🚀";
+    text.textContent = t("blastOff");
     grid.innerHTML = "";
-    setBruno("Hold on tight! We're flying to " + (body.id === "sun" || body.id === "moon" ? "the " : "") + body.name + "! 🚀");
+    landed = null;
+    setBruno(t("holdOn", body));
 
     // Farther places take a little longer to fly to (Moon about 1.5s, Pluto about 5s).
     const ms = reduceMotion ? 0 : 1500 + Math.log10(body.fromEarthKm / 384400) * 850;
@@ -105,26 +99,11 @@
   function land(body) {
     rocket.classList.remove("flying");
     destEl.querySelectorAll("button").forEach((b) => (b.disabled = false));
-    const the = body.id === "sun" || body.id === "moon" ? "The " : "";
-    text.textContent = the + body.name + " is " + bigNumber(body.fromEarthKm) + " kilometers (" +
-      bigNumber(body.fromEarthKm * 0.6214) + " miles) away" + (the ? "!" : " when it's closest to Earth!");
-
-    TRAVEL.forEach((way) => {
-      const hours = body.fromEarthKm / way.kmh;
-      const tile = document.createElement("div");
-      tile.className = "travel-tile";
-      tile.innerHTML = '<span class="travel-icon"></span><div></div><strong></strong><small></small>';
-      tile.querySelector(".travel-icon").textContent = way.icon;
-      tile.querySelector("div").textContent = way.name;
-      tile.querySelector("strong").textContent = duration(hours);
-      tile.querySelector("small").textContent = hours / 24 / 365.25 > 80 ? "Longer than a whole lifetime!" : "";
-      grid.appendChild(tile);
-    });
+    landed = body;
+    showTrip(body);
 
     const car = duration(body.fromEarthKm / TRAVEL[1].kmh);
-    setBruno(body.id === "sun"
-      ? "We can't land on the Sun — way too hot! 🥵 By car it would take " + car + " to get here!"
-      : "We made it to " + the.toLowerCase() + body.name + "! 🎉 By car it would take " + car + "!");
+    setBruno(body.id === "sun" ? t("sunLanding", car) : t("madeIt", body, car));
 
     earnSticker("trip");
     trips.add(body.id);
@@ -132,14 +111,37 @@
     if (places.every((p) => trips.has(p.id))) earnSticker("trip-all");
   }
 
+  // How far away it is and how long it takes to get there.
+  function showTrip(body) {
+    text.textContent = t("away", body, body.fromEarthKm, body.fromEarthKm * 0.6214);
+    grid.innerHTML = "";
+    TRAVEL.forEach((way) => {
+      const hours = body.fromEarthKm / way.kmh;
+      const tile = document.createElement("div");
+      tile.className = "travel-tile";
+      tile.innerHTML = '<span class="travel-icon"></span><div></div><strong></strong><small></small>';
+      tile.querySelector(".travel-icon").textContent = way.icon;
+      tile.querySelector("div").textContent = tr(way).name;
+      tile.querySelector("strong").textContent = duration(hours);
+      tile.querySelector("small").textContent = hours / 24 / 365.25 > 80 ? t("lifetime") : "";
+      grid.appendChild(tile);
+    });
+  }
+
   places.forEach((body) => {
     const btn = document.createElement("button");
     btn.className = "dest";
     btn.dataset.id = body.id;
     btn.appendChild(drawPlanet(body, body.rings ? 34 : 40));
-    btn.appendChild(document.createTextNode(body.name));
+    btn.appendChild(document.createElement("span")).textContent = tr(body).name;
     btn.addEventListener("click", () => fly(body));
     destEl.appendChild(btn);
+  });
+
+  document.addEventListener("langchange", () => {
+    destEl.querySelectorAll("button").forEach((b) => (b.querySelector("span").textContent = tr(byId(b.dataset.id)).name));
+    if (landed) showTrip(landed);
+    else if (rocket.classList.contains("flying")) text.textContent = t("blastOff");
   });
 
   picture(fromEl, byId("earth"));

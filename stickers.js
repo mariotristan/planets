@@ -3,17 +3,28 @@
 (function () {
   const KEY = "planetStickers";
   const STICKERS = [
-    ...BODIES.map((b) => ({ id: "visit-" + b.id, name: b.name, body: b, hint: "Open the " + b.name + " card" })),
-    { id: "explorer", name: "Super Explorer", icon: "🧭", hint: "Visit every planet, the Sun, the Moon and Pluto" },
-    { id: "size", name: "Size Detective", icon: "🔍", hint: "Compare two sizes" },
-    { id: "weight", name: "Space Scale", icon: "⚖️", hint: "Move the weight slider" },
-    { id: "trip", name: "Space Traveler", icon: "🧑‍🚀", hint: "Fly somewhere with Bruno" },
-    { id: "trip-all", name: "Grand Tour", icon: "🗺️", hint: "Fly to every place" },
-    { id: "quiz-first", name: "First Quiz", icon: "🎓", hint: "Finish a quiz" },
-    { id: "quiz-5", name: "Star Catcher", icon: "🌟", hint: "Get 5 stars in one quiz" },
-    { id: "quiz-perfect", name: "Space Expert", icon: "🏆", hint: "Get all 8 stars in one quiz" },
-    { id: "quiz-3", name: "Quiz Champ", icon: "🥇", hint: "Play 3 quizzes" },
+    ...BODIES.map((b) => ({ id: "visit-" + b.id, body: b })),
+    { id: "explorer", name: "Super Explorer", icon: "🧭", hint: "Visit every planet, the Sun, the Moon and Pluto",
+      es: { name: "Súper Exploración", hint: "Visita todos los planetas, el Sol, la Luna y Plutón" } },
+    { id: "size", name: "Size Detective", icon: "🔍", hint: "Compare two sizes",
+      es: { name: "Detective de Tamaños", hint: "Compara dos tamaños" } },
+    { id: "weight", name: "Space Scale", icon: "⚖️", hint: "Move the weight slider",
+      es: { name: "Báscula Espacial", hint: "Mueve la barra del peso" } },
+    { id: "trip", name: "Space Traveler", icon: "🧑‍🚀", hint: "Fly somewhere with Bruno",
+      es: { name: "Viaje Espacial", hint: "Vuela a algún lugar con Bruno" } },
+    { id: "trip-all", name: "Grand Tour", icon: "🗺️", hint: "Fly to every place",
+      es: { name: "Gran Recorrido", hint: "Vuela a todos los lugares" } },
+    { id: "quiz-first", name: "First Quiz", icon: "🎓", hint: "Finish a quiz",
+      es: { name: "Primeras Preguntas", hint: "Termina un juego de preguntas" } },
+    { id: "quiz-5", name: "Star Catcher", icon: "🌟", hint: "Get 5 stars in one quiz",
+      es: { name: "Atrapa Estrellas", hint: "Consigue 5 estrellas en un juego" } },
+    { id: "quiz-perfect", name: "Space Expert", icon: "🏆", hint: "Get all 8 stars in one quiz",
+      es: { name: "Genio del Espacio", hint: "Consigue las 8 estrellas en un juego" } },
+    { id: "quiz-3", name: "Quiz Champ", icon: "🥇", hint: "Play 3 quizzes",
+      es: { name: "Copa de Preguntas", hint: "Juega 3 veces a las preguntas" } },
   ];
+  // A sticker's name and hint in the current language.
+  const words = (s) => (s.body ? { name: tr(s.body).name, hint: t("visitHint", s.body) } : tr(s));
 
   let earned;
   try {
@@ -46,14 +57,12 @@
       if (got) pic.appendChild(art(s, 60));
       else pic.textContent = "❓";
       const label = document.createElement(got ? "strong" : "small");
-      label.textContent = got ? s.name : s.hint;
+      label.textContent = got ? words(s).name : words(s).hint;
       tile.append(pic, label);
       grid.appendChild(tile);
     });
     const n = STICKERS.filter((s) => earned.has(s.id)).length;
-    count.textContent = n === STICKERS.length
-      ? "WOW! You collected all " + n + " stickers! 🎉"
-      : "You have " + n + " of " + STICKERS.length + " stickers!";
+    count.textContent = n === STICKERS.length ? t("allStickers", n) : t("stickerCount", n, STICKERS.length);
   }
 
   // Show one "New sticker!" pop-up at a time.
@@ -62,7 +71,7 @@
     if (!s) return;
     toast.innerHTML = "";
     const text = document.createElement("span");
-    text.textContent = "New sticker: " + s.name + "!";
+    text.textContent = t("newSticker", words(s).name);
     toast.append(art(s, 44), text);
     toast.classList.remove("hidden");
     setTimeout(() => {
@@ -85,4 +94,5 @@
   };
 
   render();
+  document.addEventListener("langchange", render);
 })();

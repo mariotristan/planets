@@ -2,12 +2,13 @@
 // Pages load from the saved copy right away, and each file is re-downloaded in the
 // background so the next visit gets any updates.
 
-const CACHE = "planets-v1";
+const CACHE = "planets-v2";
 const FILES = [
   "./",
   "index.html",
   "styles.css",
   "data.js",
+  "i18n.js",
   "app.js",
   "stickers.js",
   "explore.js",
